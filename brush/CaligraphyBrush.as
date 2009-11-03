@@ -5,7 +5,7 @@
  * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
- * Checkin version: $Id: CaligraphyBrush.as 67 2009-02-02 21:31:32Z richard.laptop $
+ * Checkin version: $Id$
  *
  * This file is part of FriiSpray.
  *

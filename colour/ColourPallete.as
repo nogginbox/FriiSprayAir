@@ -5,7 +5,7 @@
  * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
- * Checkin version: $Id: ColourPallete.as 73 2009-05-23 21:00:41Z richard.laptop $
+ * Checkin version: $Id$
  *
  * This file is part of FriiSpray.
  *

@@ -5,7 +5,7 @@
  * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
- * Checkin version: $Id: Brush.as 71 2009-04-12 09:43:52Z Richard $
+ * Checkin version: $Id$
  *
  * This file is part of FriiSpray.
  *
