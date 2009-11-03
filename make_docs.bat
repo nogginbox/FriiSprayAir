@@ -1,0 +1,1 @@
+asdoc -source-path . ../actionscript/ -doc-classes FriiSpray -load-config "C:\Program Files\Flex\frameworks\air-config.xml" -exclude-classes com.adobe.images.PNGEncoder  -main-title "FriiSpray Documentation" -window-title "FriiSpray Documentation"
