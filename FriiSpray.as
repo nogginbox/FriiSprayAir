@@ -95,10 +95,7 @@ import flash.text.TextField;
 			toolbar.colourPallete.addEventListener(ColourPickedEvent.COLOUR_PICKED, onColourChange);
 			parent.addEventListener(KeyboardEvent.KEY_DOWN, onKeyCommand);
 			
-			// Set up dialogues
-			savingDialogue.visible = false;
-			
-			// Set up brushes;
+			// Setup brushes;
 			m_brushes = new Array(4);
 			m_brushes[BRUSH_NORMAL] = new NormalBrush(paper, normalCursor);
 			m_brushes[BRUSH_SPRAY] = new SprayBrush(paper, normalCursor);
@@ -107,23 +104,29 @@ import flash.text.TextField;
 			m_activeBrush = 0;
 			m_brushes[m_activeBrush].PickUpBrush();
 			
-			// Set up image loaders
+			// Setup image loaders
 			backgroundImageLoader = new UserImageLoader(paper);
 			foregroundImageLoader = new UserImageLoader(paper);
 			
-			
+			// Setup paper to match screen resolution
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
-			
-			// Setup paper to match screen resolution
 			stage.nativeWindow.width = Capabilities.screenResolutionX;
 			stage.nativeWindow.height = Capabilities.screenResolutionY;
-
 			// Clear canvas to set size (Resizes paper by drawing a big rectangle in it. (Setting width directly messes with scale))
 			m_brushes[m_activeBrush].ClearCanvass();
 			
+			// Resize toolbar
+			toolbar.height = Capabilities.screenResolutionY * 0.85;
+			toolbar.scaleX = toolbar.scaleY;
+			
+			// Setup save dialogues
+			savingDialogue.visible = false;
+			savingDialogue.x = (Capabilities.screenResolutionX - savingDialogue.width) / 2;
+			savingDialogue.y = (Capabilities.screenResolutionY - savingDialogue.height) / 2;
+			
 			// Full screen the interface
-			//stage.displayState = StageDisplayState.FULL_SCREEN;
+			stage.displayState = StageDisplayState.FULL_SCREEN;
 		}
 
 		
