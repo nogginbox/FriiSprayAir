@@ -29,6 +29,7 @@ package brush
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
+	import flash.system.Capabilities;
 	import flash.ui.Mouse;
 	
 	/**
@@ -199,8 +200,12 @@ package brush
 		 */
 		public function ClearCanvass():void
 		{
-			trace('Trying to clear');
+			// Clear
 			m_paper.graphics.clear();
+			// Set screen background (also resizes available drawable screen)
+			m_paper.graphics.beginFill(0xffffff);
+			m_paper.graphics.drawRect(0,0, Capabilities.screenResolutionX, Capabilities.screenResolutionY);
+			
 			if(m_paperBitmap != null) {
 				m_paper.removeChild(m_paperBitmap);
 				m_paperBitmap = null;

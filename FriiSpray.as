@@ -32,7 +32,9 @@ package
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filesystem.*; // for saving images
+	import flash.geom.Rectangle;
 	import flash.net.*;
+	import flash.system.Capabilities;
 	import flash.ui.Mouse;
 	import flash.utils.ByteArray; // For saving
 	import flash.utils.Timer;
@@ -51,8 +53,6 @@ import flash.text.TextField;
 
 		public var toolbar:Toolbar;
 		public var paper:MovieClip;
-		private var m_paperWidth:Number;
-		private var m_paperHeight:Number;
 		public var savingDialogue:MovieClip;
 		
 		public var caligraphyCursor:MovieClip;
@@ -78,8 +78,6 @@ import flash.text.TextField;
 		 */
 		public function FriiSpray()
 		{
-			stage.displayState = StageDisplayState.FULL_SCREEN;
-			
 			// Connect events
 			paper.addEventListener(MouseEvent.MOUSE_DOWN, onStartSpray);
 			paper.addEventListener(MouseEvent.MOUSE_UP, onStopSpray);
@@ -113,9 +111,19 @@ import flash.text.TextField;
 			backgroundImageLoader = new UserImageLoader(paper);
 			foregroundImageLoader = new UserImageLoader(paper);
 			
-			// Set up paper dimensions to stop resize on saving
-			m_paperWidth = paper.width;
-			m_paperHeight = paper.height;
+			
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
+			// Setup paper to match screen resolution
+			stage.nativeWindow.width = Capabilities.screenResolutionX;
+			stage.nativeWindow.height = Capabilities.screenResolutionY;
+
+			// Clear canvas to set size (Resizes paper by drawing a big rectangle in it. (Setting width directly messes with scale))
+			m_brushes[m_activeBrush].ClearCanvass();
+			
+			// Full screen the interface
+			//stage.displayState = StageDisplayState.FULL_SCREEN;
 		}
 
 		
@@ -185,7 +193,7 @@ import flash.text.TextField;
 			// Check the user still wants to draw
 			if(ev.buttonDown)
 			{
-				m_brushes[m_activeBrush].Draw(mouseX, mouseY);
+				m_brushes[m_activeBrush].Draw(paper.mouseX, paper.mouseY);
 			}
 			else
 			{
@@ -315,7 +323,7 @@ import flash.text.TextField;
 		private function onStartSpray(ev:MouseEvent):void
 		{
 			Mouse.hide();
-			m_brushes[m_activeBrush].Begin(mouseX, mouseY);
+			m_brushes[m_activeBrush].Begin(paper.mouseX, paper.mouseY);
 			addEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
 		}
 		
@@ -345,7 +353,7 @@ import flash.text.TextField;
 		 */
 		private function save():void
 		{
-			var bitmapData:BitmapData = new BitmapData(m_paperWidth, m_paperHeight);
+			var bitmapData:BitmapData = new BitmapData(Capabilities.screenResolutionX, Capabilities.screenResolutionY);
 			bitmapData.draw(paper);
 			
 			// use adobe’s encoder to create a byteArray
