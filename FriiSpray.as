@@ -83,10 +83,10 @@ import flash.text.TextField;
 			paper.addEventListener(MouseEvent.MOUSE_UP, onStopSpray);
 			paper.addEventListener(MouseEvent.MOUSE_OVER, onOverPaper);
 
-			toolbar.btnBrushNormal.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
-			toolbar.btnBrushSpray.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
-			toolbar.btnBrushCaligraphy.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
-			toolbar.btnBrushCaligraphy2.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
+			toolbar.BtnBrushNormal.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
+			toolbar.BtnBrushSpray.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
+			toolbar.BtnBrushCaligraphy.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
+			toolbar.BtnBrushCaligraphy2.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
 			
 			toolbar.btnClear.addEventListener(MouseEvent.MOUSE_DOWN, onClear);
 			toolbar.btnMinus.addEventListener(MouseEvent.MOUSE_DOWN, onSmallerButton);
@@ -117,7 +117,7 @@ import flash.text.TextField;
 			m_brushes[m_activeBrush].ClearCanvass();
 			
 			// Resize toolbar
-			toolbar.height = Capabilities.screenResolutionY * 0.85;
+			toolbar.height = Capabilities.screenResolutionY;
 			toolbar.scaleX = toolbar.scaleY;
 			
 			// Setup save dialogues
@@ -146,15 +146,19 @@ import flash.text.TextField;
 			switch(ev.target.name) {
 				case "btnBrushSpray":
 					m_activeBrush = BRUSH_SPRAY;
+					toolbar.ChangeBrushPanelButton(new SprayBrushButton());
 					break;
 				case "btnBrushCaligraphy":
 					m_activeBrush = BRUSH_CALIGRAPHY;
+					toolbar.ChangeBrushPanelButton(new CaligraphyBrushButton());
 					break;
 				case "btnBrushCaligraphy2":
 					m_activeBrush = BRUSH_CALIGRAPHY2;
+					toolbar.ChangeBrushPanelButton(new CaligraphyBrushButton2());
 					break;
 				default:
 					m_activeBrush = BRUSH_NORMAL;
+					toolbar.ChangeBrushPanelButton(new NormalBrushButton());
 					break;
 			}
 			m_brushes[m_activeBrush].PickUpBrush(tempPaperCache);
@@ -357,7 +361,8 @@ import flash.text.TextField;
 		private function save():void
 		{
 			var bitmapData:BitmapData = new BitmapData(Capabilities.screenResolutionX, Capabilities.screenResolutionY);
-			bitmapData.draw(paper);
+			bitmapData.draw(paper, null, null, null, new Rectangle(0,0, 200, 200));
+			trace("Toolbar: " + toolbar.x + " - " + toolbar.width);
 			
 			// use adobe’s encoder to create a byteArray
 			trace('Starting encoding');

@@ -28,7 +28,7 @@ package
 	import colour.*;
 	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
-	import flash.events.MouseEvent;
+	import flash.events.*;
 	import flash.ui.Mouse;
 	
 	/**
@@ -39,15 +39,19 @@ package
 	public class Toolbar extends MovieClip
 	{
 		// UI Elements
-		public var btnBrushCaligraphy2:SimpleButton;
-		public var btnBrushCaligraphy:SimpleButton;
-		public var btnBrushNormal:SimpleButton;
-		public var btnBrushSpray:SimpleButton;
+		public var btnBrushPanel:SimpleButton;
+		public var btnColourPanel:SimpleButton;
 		public var btnClear:SimpleButton;
 		public var btnMinus:SimpleButton;
 		public var btnPlus:SimpleButton;
 		public var btnSave:SimpleButton;
-		public var colourPallete:ColourPallete;
+		public var panelBrushes:MovieClip;
+		public var panelColour:MovieClip;
+		
+		private var m_activePanelBrushes:Boolean = false;
+		private var m_activePanelColour:Boolean = false;
+		private var m_panelMoving:Boolean = false;
+		
 		
 		/**
 		 * Constructor
@@ -55,6 +59,28 @@ package
 		public function Toolbar()
 		{
 			addEventListener(MouseEvent.MOUSE_OVER, onHover);
+			btnBrushPanel.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			btnColourPanel.addEventListener(MouseEvent.CLICK, onShowHidePanelColour);
+			
+			// Add hide events for all panel buttons
+			BtnBrushNormal.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			BtnBrushSpray.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			BtnBrushCaligraphy.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			BtnBrushCaligraphy2.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			colourPallete.addEventListener(ColourPickedEvent.COLOUR_PICKED, onShowHidePanelColour);
+		}
+		
+		public function ChangeBrushPanelButton(newButton:SimpleButton):void
+		{
+			newButton.x = btnBrushPanel.x;
+			newButton.y = btnBrushPanel.y;
+			
+			btnBrushPanel.removeEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+			removeChild(btnBrushPanel);
+			btnBrushPanel = newButton;
+			addChild(newButton);
+			
+			btnBrushPanel.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
 		}
 		
 		/**
@@ -66,5 +92,71 @@ package
 		{
 			Mouse.show();
 		}
+		
+		private function onShowHidePanelBrush(ev:MouseEvent):void
+		{
+			if(!m_panelMoving)
+			{
+				m_panelMoving = true;
+				if(m_activePanelBrushes)
+				{
+					gotoAndPlay("HideBrushes");
+				}
+				else
+				{
+					gotoAndPlay("ShowBrushes");
+				}
+				m_activePanelBrushes = !m_activePanelBrushes;
+				m_activePanelColour = false;
+			}
+		}
+		
+		private function onShowHidePanelColour(ev:Event):void
+		{
+			if(!m_panelMoving)
+			{
+				m_panelMoving = true;
+				if(m_activePanelColour)
+				{
+					gotoAndPlay("HideColours");
+				}
+				else
+				{
+					gotoAndPlay("ShowColours");
+				}
+				m_activePanelColour = !m_activePanelColour;
+				m_activePanelBrushes = false;
+			}
+		}
+		
+		protected function stopMenu():void
+		{
+			stop();
+			m_panelMoving = false;
+		}
+		
+		// Brush panel buttons
+		public function get BtnBrushNormal():SimpleButton
+		{
+			return panelBrushes.btnBrushNormal;
+		}
+		public function get BtnBrushSpray():SimpleButton
+		{
+			return panelBrushes.btnBrushSpray;
+		}
+		public function get BtnBrushCaligraphy():SimpleButton
+		{
+			return panelBrushes.btnBrushCaligraphy;
+		}
+		public function get BtnBrushCaligraphy2():SimpleButton
+		{
+			return panelBrushes.btnBrushCaligraphy2;
+		}
+		public function get colourPallete():ColourPallete
+		{
+			return panelColour.colourPallete;
+		}
+			
+			
 	}
 }

@@ -3,12 +3,16 @@
 
   <id>richardsprojects.co.uk.FriiSpray</id>
 
-  <version>0.83</version>
+  <version>0.84</version>
 
   <filename>FriiSpray</filename>
 
   <description>A simple painting program to be used with a WiiMote.
 www.friispray.co.uk</description>
+
+  
+
+
 
   
 
@@ -138,6 +142,10 @@ www.friispray.co.uk</description>
 
   
 
+
+
+  
+
 <!-- To localize the name, use the following format for the name element.<name><text xml:lang="en">English App name goes here</text><text xml:lang="fr">French App name goes here</text><text xml:lang="ja">Japanese App name goes here</text></name>-->
 
   <copyright/>
@@ -168,6 +176,8 @@ www.friispray.co.uk</description>
   <customUpdateUI>false</customUpdateUI>
 
   <allowBrowserInvocation>false</allowBrowserInvocation>
+
+
 
 
 
