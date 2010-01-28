@@ -32,7 +32,7 @@ package
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filesystem.*; // for saving images
-	import flash.geom.Rectangle;
+	import flash.geom.*;
 	import flash.net.*;
 	import flash.system.Capabilities;
 	import flash.ui.Mouse;
@@ -360,17 +360,18 @@ import flash.text.TextField;
 		 */
 		private function save():void
 		{
-			var bitmapData:BitmapData = new BitmapData(Capabilities.screenResolutionX, Capabilities.screenResolutionY);
-			bitmapData.draw(paper, null, null, null, new Rectangle(0,0, 200, 200));
-			trace("Toolbar: " + toolbar.x + " - " + toolbar.width);
+			// Draw paper, missing out the bit covered by menu bar
+			var paperTopCorner = paper.localToGlobal(new Point(50, 0)); // We know toolbar is 50 pixels wide in local space			
+			var bitmapData:BitmapData = new BitmapData(Capabilities.screenResolutionX - paperTopCorner.x, Capabilities.screenResolutionY);
+			var translateMatrix = new Matrix();
+			translateMatrix.translate(-paperTopCorner.x, 0)
+			bitmapData.draw(paper, translateMatrix);
 			
 			// use adobe’s encoder to create a byteArray
-			trace('Starting encoding');
 			var byteArray:ByteArray = PNGEncoder.encode(bitmapData);
-			trace('Finished encoding');
 			
 			// set a filename
-			var fileName:String = "FriiConstruct"
+			var fileName:String = "FriiSpray"
 			var fileNumber:Number = 0;
 			var fileExtension:String = ".png";
 			
