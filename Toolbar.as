@@ -40,7 +40,7 @@ package
 	{
 		// UI Elements
 		public var btnBrushPanel:SimpleButton;
-		public var btnColourPanel:SimpleButton;
+		public var btnColourPanel:ColourButton;
 		public var btnClear:SimpleButton;
 		public var btnMinus:SimpleButton;
 		public var btnPlus:SimpleButton;
@@ -67,7 +67,7 @@ package
 			BtnBrushSpray.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
 			BtnBrushCaligraphy.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
 			BtnBrushCaligraphy2.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
-			colourPallete.addEventListener(ColourPickedEvent.COLOUR_PICKED, onShowHidePanelColour);
+			colourPallete.addEventListener(ColourPickedEvent.COLOUR_PICKED, onColourPicked);
 		}
 		
 		public function ChangeBrushPanelButton(newButton:SimpleButton):void
@@ -81,6 +81,12 @@ package
 			addChild(newButton);
 			
 			btnBrushPanel.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
+		}
+		
+		private function onColourPicked(ev:ColourPickedEvent)
+		{
+			btnColourPanel.Colour = ev.Colour;
+			onShowHidePanelColour(ev);
 		}
 		
 		/**

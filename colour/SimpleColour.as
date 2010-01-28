@@ -30,9 +30,9 @@ package colour
 	 */
 	public class SimpleColour
 	{
-		private var r:Number;
-		private var g:Number;
-		private var b:Number;
+		public var r:Number;
+		public var g:Number;
+		public var b:Number;
 
 		/**
 		 * Constructor.
