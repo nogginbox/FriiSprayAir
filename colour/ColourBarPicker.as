@@ -27,6 +27,7 @@ package colour
 {
 	import flash.display.*;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	
 	/*
 	 * Extends Ryan Taylor of http://www.boostworthy.com's ColourBar class
@@ -35,6 +36,7 @@ package colour
 	public class ColourBarPicker extends ColourBar
 	{
 		private var m_bitmapColourBar:BitmapData;
+		private const greysBarWidth:int = 10;
 		
 		/**
 		 * Constructor.
@@ -44,6 +46,7 @@ package colour
 		 */
 		public function ColourBarPicker(nWidth:Number = DEFAULT_WIDTH, nHeight:Number = DEFAULT_HEIGHT)
 		{
+			nWidth -= greysBarWidth;
 			super(nWidth, nHeight);
 			addEventListener(MouseEvent.CLICK, onColourPick);
 		}
@@ -57,6 +60,15 @@ package colour
 		protected override function init(nWidth:Number = DEFAULT_WIDTH, nHeight:Number = DEFAULT_HEIGHT):void
 		{
 			super.init(nWidth, nHeight);
+			nWidth += greysBarWidth;
+			
+			// Draw black to white gradient strip
+			var objMatrixW = new Matrix();
+			objMatrixW.createGradientBox(1, nHeight, Math.PI * 0.5, 0, 0);
+			graphics.lineStyle(20, 0, 1, false, LineScaleMode.NONE, CapsStyle.NONE);
+			graphics.lineGradientStyle(GradientType.LINEAR, [0xFFFFFF, 0x000000], [1, 1], [0, 255], objMatrixW);
+			graphics.moveTo(nWidth - (greysBarWidth/2), 0);
+			graphics.lineTo(nWidth - (greysBarWidth/2), nHeight);
 			
 			// Copy data to bitmap, so it can scale okay
 			m_bitmapColourBar = new BitmapData(nWidth, nHeight, false);
