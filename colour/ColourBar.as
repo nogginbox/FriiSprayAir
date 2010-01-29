@@ -26,10 +26,6 @@
 // *****************************************************************************************
 // http://www.boostworthy.com/blog/?p=200
 
-/*
- * Modified to allow colour picking
- */
-
 // PACKAGE /////////////////////////////////////////////////////////////////////////////////
 
 package colour
@@ -37,7 +33,6 @@ package colour
 	// IMPORTS /////////////////////////////////////////////////////////////////////////////
 	
 	import flash.display.*;
-	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	
 	// CLASS ///////////////////////////////////////////////////////////////////////////////
@@ -56,13 +51,12 @@ package colour
 		// CONSTANTS ///////////////////////////////////////////////////////////////////////
 		
 		/** Configures the default width of this object. */
-		private static const DEFAULT_WIDTH:Number  = 100;
+		protected static const DEFAULT_WIDTH:Number  = 100;
 		
 		/** Configures the default height of this object. */
-		private static const DEFAULT_HEIGHT:Number = 100;
+		protected static const DEFAULT_HEIGHT:Number = 100;
 		
 		// CLASS MEMBERS ///////////////////////////////////////////////////////////////////
-		private var m_bitmapColourBar:BitmapData;
 		
 		
 		// *********************************************************************************
@@ -78,8 +72,6 @@ package colour
 		public function ColourBar(nWidth:Number = DEFAULT_WIDTH, nHeight:Number = DEFAULT_HEIGHT)
 		{
 			init(nWidth, nHeight);
-			
-			addEventListener(MouseEvent.CLICK, onColourPick);
 		}
 		
 		// *********************************************************************************
@@ -92,7 +84,7 @@ package colour
 		 * @param	nWidth		The width of the color bar.
 		 * @param	nHeight		The height of the color bar.
 		 */
-		public function init(nWidth:Number = DEFAULT_WIDTH, nHeight:Number = DEFAULT_HEIGHT):void
+		protected function init(nWidth:Number = DEFAULT_WIDTH, nHeight:Number = DEFAULT_HEIGHT):void
 		{
 			var nColorPercent : Number;
 			var nRadians      : Number;
@@ -143,18 +135,6 @@ package colour
 				graphics.moveTo(i, nHalfHeight);
 				graphics.lineTo(i, nHeight);
 			}
-			
-			// Copy data to bitmap, so it can scale okay
-			m_bitmapColourBar = new BitmapData(nWidth, nHeight, false);
-			m_bitmapColourBar.draw(this);
-			graphics.clear();
-			addChild(new Bitmap(m_bitmapColourBar));
-		}
-		
-		private function onColourPick(ev:MouseEvent):void
-		{
-			var _colour:SimpleColour = SimpleColour.CreateFromHex(m_bitmapColourBar.getPixel(mouseX, mouseY));
-			dispatchEvent(new ColourPickedEvent(_colour));
 		}
 	}
 }

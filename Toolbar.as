@@ -2,7 +2,7 @@
  * This is an Open Source Project.
  * @see http://www.friispray.co.uk/
  * @author Richard Garside [http://www.richardsprojects.co.uk/]
- * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
+ * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The Jam Jar Collective)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
  * Checkin version: $Id$
@@ -70,6 +70,9 @@ package
 			colourPallete.addEventListener(ColourPickedEvent.COLOUR_PICKED, onColourPicked);
 		}
 		
+		/**
+		 * Changes the Button Symbol used for the brush panel button to show the current brush
+		 */
 		public function ChangeBrushPanelButton(newButton:SimpleButton):void
 		{
 			newButton.x = btnBrushPanel.x;
@@ -83,6 +86,9 @@ package
 			btnBrushPanel.addEventListener(MouseEvent.CLICK, onShowHidePanelBrush);
 		}
 		
+		/**
+		 * Catches the colour changing so button can show current colour.
+		 */
 		private function onColourPicked(ev:ColourPickedEvent)
 		{
 			btnColourPanel.Colour = ev.Colour;
@@ -99,6 +105,9 @@ package
 			Mouse.show();
 		}
 		
+		/**
+		 * User has clicked to show or hide the brush panel.
+		 */
 		private function onShowHidePanelBrush(ev:MouseEvent):void
 		{
 			if(!m_panelMoving)
@@ -117,6 +126,9 @@ package
 			}
 		}
 		
+		/**
+		 * User has clicked to show or hide the colour panel.
+		 */
 		private function onShowHidePanelColour(ev:Event):void
 		{
 			if(!m_panelMoving)
@@ -135,34 +147,49 @@ package
 			}
 		}
 		
+		/**
+		 * Timeline function, signal that menu has stopped moving
+		 */
 		protected function stopMenu():void
 		{
 			stop();
 			m_panelMoving = false;
 		}
 		
-		// Brush panel buttons
+		/**
+		 * Normal brush button in brush panel.
+		 */
 		public function get BtnBrushNormal():SimpleButton
 		{
 			return panelBrushes.btnBrushNormal;
 		}
+		/**
+		 * Spray brush button in brush panel.
+		 */
 		public function get BtnBrushSpray():SimpleButton
 		{
 			return panelBrushes.btnBrushSpray;
 		}
+		/**
+		 * Caligraphy brush button in brush panel.
+		 */
 		public function get BtnBrushCaligraphy():SimpleButton
 		{
 			return panelBrushes.btnBrushCaligraphy;
 		}
+		/**
+		 * Caligraphy2 brush button in brush panel.
+		 */
 		public function get BtnBrushCaligraphy2():SimpleButton
 		{
 			return panelBrushes.btnBrushCaligraphy2;
 		}
+		/**
+		 * Colour pallete control in colour panel.
+		 */
 		public function get colourPallete():ColourPallete
 		{
 			return panelColour.colourPallete;
 		}
-			
-			
 	}
 }

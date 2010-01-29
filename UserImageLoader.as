@@ -2,7 +2,7 @@
  * This is an Open Source Project.
  * @see http://www.friispray.co.uk/
  * @author Richard Garside [http://www.richardsprojects.co.uk/]
- * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
+ * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The Jam Jar Collective)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
  * Checkin version: $Id$
@@ -33,6 +33,9 @@ package
 	import flash.net.FileFilter;
 	import flash.utils.ByteArray; // For saving
 	
+	/**
+	 * A class to help load images chosen by the user
+	 */
 	public class UserImageLoader
 	{
 		// Private Properties:
@@ -41,7 +44,9 @@ package
 		private var m_imageLoader:Loader;
 		private var m_paintDepth:int = 0;
 	
-		// Initialization:
+		/**
+		 * Constructor
+		 */
 		public function UserImageLoader(canvas)
 		{
 			m_canvas = canvas;
@@ -112,7 +117,6 @@ package
 			{
 				trace("Failed:", error.message);
 			}
-
 		}
 	}
 }

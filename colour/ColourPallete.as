@@ -2,7 +2,7 @@
  * This is an Open Source Project.
  * @see http://www.friispray.co.uk/
  * @author Richard Garside [http://www.richardsprojects.co.uk/]
- * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The FriiSpray Team)
+ * Copyright 2009 Richard Garside, Stuart Childs & Dave Lynch (The Jam Jar Collective)
  * @license GNU General Purpose License [http://creativecommons.org/licenses/GPL/2.0/]
  *
  * Checkin version: $Id$
@@ -45,7 +45,7 @@ package colour
 		 */
 		public function ColourPallete()
 		{
-			var colourBar:ColourBar = new ColourBar(286, 62);
+			var colourBar:ColourBarPicker = new ColourBarPicker(286, 62);
 			colourBar.y = 35;
 			addChild(colourBar);
 			
@@ -79,6 +79,9 @@ package colour
 			}
 		}
 		
+		/**
+		 * Draws all the swatches to the scren.
+		 */
 		private function drawSwatches()
 		{
 			for(var i:Number=0; i < 10; i++)
