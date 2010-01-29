@@ -47,6 +47,14 @@ package colour
 			g = green;
 			b = blue;
 		}
+		
+		public static function CreateFromHex(hexColour:uint)
+		{
+			var r:uint = (hexColour >> 16) & 0xFF;
+			var g:uint = (hexColour >> 8) & 0xFF;
+			var b:uint =(hexColour) & 0xFF;
+			return new SimpleColour(r,g,b);
+		}
 
 		/**
 		 * A hex representation of this colour.
