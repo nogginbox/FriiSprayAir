@@ -118,7 +118,7 @@ package brush
 		 * The number of layers we wish to paint below.
 		 * 0 paints on surface, 1 paints below top layer
 		 */
-		public function set PaintDepth(val:uint)
+		public function set PaintDepth(val:uint):void
 		{
 			m_paintDepth = val;
 		}

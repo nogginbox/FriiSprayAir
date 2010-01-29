@@ -51,7 +51,7 @@ package colour
 		/**
 		 * Factory method to create a SimpleColour from a single colour number
 		 */
-		public static function CreateFromHex(hexColour:uint)
+		public static function CreateFromHex(hexColour:uint):SimpleColour
 		{
 			var r:uint = (hexColour >> 16) & 0xFF;
 			var g:uint = (hexColour >> 8) & 0xFF;

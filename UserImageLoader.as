@@ -25,13 +25,12 @@
  
 package
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
+	import flash.display.*;
 	import flash.events.Event;
 	import flash.filesystem.*; // for saving images
 	import flash.net.FileFilter;
 	import flash.utils.ByteArray; // For saving
+	import brush.Brush;
 	
 	/**
 	 * A class to help load images chosen by the user
@@ -39,15 +38,15 @@ package
 	public class UserImageLoader
 	{
 		// Private Properties:
-		private var m_activeBrush;
-		private var m_canvas;
+		private var m_activeBrush:Brush;
+		private var m_canvas:MovieClip;
 		private var m_imageLoader:Loader;
 		private var m_paintDepth:int = 0;
 	
 		/**
 		 * Constructor
 		 */
-		public function UserImageLoader(canvas)
+		public function UserImageLoader(canvas:MovieClip)
 		{
 			m_canvas = canvas;
 		}
@@ -100,7 +99,7 @@ package
 		/**
 		 * Open a file and add it to the canvas
 		 */
-		public function UserChooseFile(activeBrush, depth:int = 0):void
+		public function UserChooseFile(activeBrush:Brush, depth:int = 0):void
 		{
 			m_activeBrush = activeBrush;
 			m_paintDepth = depth;

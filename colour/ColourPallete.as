@@ -82,7 +82,7 @@ package colour
 		/**
 		 * Draws all the swatches to the scren.
 		 */
-		private function drawSwatches()
+		private function drawSwatches():void
 		{
 			for(var i:Number=0; i < 10; i++)
 			{

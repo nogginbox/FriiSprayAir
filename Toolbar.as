@@ -89,7 +89,7 @@ package
 		/**
 		 * Catches the colour changing so button can show current colour.
 		 */
-		private function onColourPicked(ev:ColourPickedEvent)
+		private function onColourPicked(ev:ColourPickedEvent):void
 		{
 			btnColourPanel.Colour = ev.Colour;
 			onShowHidePanelColour(ev);
