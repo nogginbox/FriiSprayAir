@@ -70,6 +70,7 @@ import flash.text.TextField;
 		private const BRUSH_SPRAY:Number = 1;
 		private const BRUSH_CALIGRAPHY:Number = 2;
 		private const BRUSH_CALIGRAPHY2:Number = 3;
+		private const BRUSH_SECRET:Number = 4;
 		
 		private const WEB_SERVER_SAVE_SCRIPT = "http://www.aserver.co.uk/saveimage.aspx";
 		
@@ -102,6 +103,7 @@ import flash.text.TextField;
 			//m_brushes[BRUSH_SPRAY] = new TestBrush(paper, normalCursor);
 			m_brushes[BRUSH_CALIGRAPHY] = new CaligraphyBrush(paper, caligraphyCursor);
 			m_brushes[BRUSH_CALIGRAPHY2] = new CaligraphyBrush2(paper, caligraphyCursor2);
+			m_brushes[BRUSH_SECRET] = new SecretBrush(paper, normalCursor);
 			m_activeBrush = 0;
 			m_brushes[m_activeBrush].PickUpBrush();
 			
@@ -259,6 +261,14 @@ import flash.text.TextField;
 						break;
 				}
 			}
+			
+			// secret brush (s key)
+			else if (ev.keyCode == 83)
+			{
+				m_activeBrush = BRUSH_SECRET;
+				toolbar.ChangeBrushPanelButton(new NormalBrushButton());
+			}
+			trace(ev.keyCode);
 		}
 		
 		/**

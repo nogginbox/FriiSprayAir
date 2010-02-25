@@ -3,7 +3,7 @@
 
   <id>richardsprojects.co.uk.FriiSpray</id>
 
-  <version>0.87</version>
+  <version>0.87a</version>
 
   <filename>FriiSpray</filename>
 
@@ -92,7 +92,9 @@ www.friispray.co.uk</description>
 
   
 
-<!-- To localize the description, use the following format for the description element.<description><text xml:lang="en">English App description goes here</text><text xml:lang="fr">French App description goes here</text><text xml:lang="ja">Japanese App description goes here</text></description>-->
+
+
+  <!-- To localize the description, use the following format for the description element.<description><text xml:lang="en">English App description goes here</text><text xml:lang="fr">French App description goes here</text><text xml:lang="ja">Japanese App description goes here</text></description>-->
 
   <name>FriiSpray</name>
 
@@ -178,7 +180,9 @@ www.friispray.co.uk</description>
 
   
 
-<!-- To localize the name, use the following format for the name element.<name><text xml:lang="en">English App name goes here</text><text xml:lang="fr">French App name goes here</text><text xml:lang="ja">Japanese App name goes here</text></name>-->
+
+
+  <!-- To localize the name, use the following format for the name element.<name><text xml:lang="en">English App name goes here</text><text xml:lang="fr">French App name goes here</text><text xml:lang="ja">Japanese App name goes here</text></name>-->
 
   <copyright/>
 
@@ -208,6 +212,7 @@ www.friispray.co.uk</description>
   <customUpdateUI>false</customUpdateUI>
 
   <allowBrowserInvocation>false</allowBrowserInvocation>
+
 
 
 

@@ -83,12 +83,14 @@ package
 		 */
 		private function onLoaded(ev:Event):void
 		{
+			trace("Canvas: (" + m_canvas.width + "," + m_canvas.height + ")");
 			// Resize the bitmap
 			m_imageLoader.width = m_canvas.width;
 			m_imageLoader.height = m_canvas.height;
 			m_imageLoader.x = 0;
 			m_imageLoader.y = 0;
 			m_imageLoader.name = 'UserLoadedImage';
+			trace("Image: (" + m_imageLoader.width + "," + m_imageLoader.height + ")");
 			
 			// Add bitmap to the screen (Adding sooner may cause paper to have wrong dimensions)
 			m_canvas.addChildAt(m_imageLoader, m_canvas.numChildren - m_paintDepth);
