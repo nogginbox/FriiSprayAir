@@ -99,6 +99,7 @@ import flash.text.TextField;
 			m_brushes = new Array(4);
 			m_brushes[BRUSH_NORMAL] = new NormalBrush(paper, normalCursor);
 			m_brushes[BRUSH_SPRAY] = new SprayBrush(paper, normalCursor);
+			//m_brushes[BRUSH_SPRAY] = new TestBrush(paper, normalCursor);
 			m_brushes[BRUSH_CALIGRAPHY] = new CaligraphyBrush(paper, caligraphyCursor);
 			m_brushes[BRUSH_CALIGRAPHY2] = new CaligraphyBrush2(paper, caligraphyCursor2);
 			m_activeBrush = 0;

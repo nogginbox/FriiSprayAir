@@ -43,7 +43,7 @@ package brush
 		protected var m_brushParts:Array;
 		private var m_cursor:MovieClip;
 		private var m_paintDepth:uint = 0;
-		private var m_paper:MovieClip;
+		protected var m_paper:MovieClip;
 		private var m_paperBitmap:Bitmap;
 		
 		// Constants
@@ -269,7 +269,7 @@ package brush
 		/**
 		 * Copy the recent lines and previous bitmap to a new bitmap that will replace them.
 		 */
-		private function copyPaperToOnscreenBitmap():void
+		protected function copyPaperToOnscreenBitmap():void
 		{
 			// Copy all lines to bitmap
 			var paperBitmapData:BitmapData = new BitmapData(m_paper.width, m_paper.height);
