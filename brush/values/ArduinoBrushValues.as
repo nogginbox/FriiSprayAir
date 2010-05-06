@@ -23,21 +23,18 @@
  * along with FriiSpray.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package brush.values 
+package brush.values
 {
-	import flash.events.Event;
-	
 	/**
-	 * ...
+	 * Brush values are only set by graphical UI
 	 * @author Richard Garside
 	 */
-	public class ValueChangedEvent extends Event
-	{
-		public static const VALUE_CHANGED = "value-chngd";
-		
-		public function ValueChangedEvent() 
+	public class ArduinoBrushValues extends BrushValues
+	{		
+		public function StaticBrushValues() 
 		{
-			super(VALUE_CHANGED);
+			
 		}
 	}
+
 }

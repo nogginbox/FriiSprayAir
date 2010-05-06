@@ -265,8 +265,20 @@ import flash.text.TextField;
 			// secret brush (s key)
 			else if (ev.keyCode == 83)
 			{
+				// Toggles alpha between 1 and 0.5
 				m_brushValues.BrushAlpha = (m_brushValues.BrushAlpha == 1) ? 0.5 : 1;
 			}
+			
+			// secret brush (c key)
+			else if (ev.keyCode == 67)
+			{
+				ArduinoCanSetupScreen.ShowHide(this);
+			}
+			
+			/*else
+			{
+				trace(ev.keyCode);
+			}*/
 		}
 		
 		/**
