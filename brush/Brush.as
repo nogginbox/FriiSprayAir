@@ -25,6 +25,7 @@
 
 package brush
 {
+	import brush.values.*;
 	import colour.*;	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -38,7 +39,7 @@ package brush
 	public class Brush
 	{
 		private var m_colour:SimpleColour;
-		private var m_size:Number;
+		private var m_valuesProvider:BrushValues;
 		
 		protected var m_brushParts:Array;
 		private var m_cursor:MovieClip;
@@ -47,9 +48,7 @@ package brush
 		private var m_paperBitmap:Bitmap;
 		
 		// Constants
-		private const MIN_BRUSH_SIZE:Number = 1;
 		private const MIN_CURSOR_SIZE:Number = 3;
-		private const SIZE_DELTA:Number = 4;
 		
 		/**
 		 * Constructor
@@ -57,14 +56,13 @@ package brush
 		public function Brush(paper:MovieClip, brushCursor:MovieClip)
 		{
 			Colour = new SimpleColour(0,0,0);
-			Size = 10;
 			m_paper = paper;
 			
 			m_cursor = brushCursor;
 			m_cursor.mouseEnabled = false;
 			m_cursor.mouseChildren = false;
 			m_cursor.visible = false;
-			CursorSize = Size;
+			CursorSize = 10;
 			
 			m_brushParts = new Array();
 		}
@@ -136,41 +134,20 @@ package brush
 			m_cursor.height = val;
 		}
 		
-		/**
-		 * Get the size of this brush.
-		 */
-		public function get Size():Number
+		public function get ValuesProvider():BrushValues
 		{
-			return m_size;
+			return m_valuesProvider;
 		}
 		
-		/**
-		 * Set the size of this brush.
-		 */
-		public function set Size(size:Number):void
+		public function set ValuesProvider(val:BrushValues):void
 		{
-			m_size = size;
+			m_valuesProvider = val;
 			
-			// Size shouldn't be smaller than the minimum set brush size (normally 1)
-			if(m_size < MIN_BRUSH_SIZE) m_size = MIN_BRUSH_SIZE;
-		}
-		
-		/**
-		 * Decrease the size of this brush by SIZE_DELTA.
-		 */
-		public function DecreaseSize():void
-		{
-			Size -= SIZE_DELTA;
-			CursorSize = Size;
-		}
-		
-		/**
-		 * Increase the size of this brush by SIZE_DELTA
-		 */
-		public function IncreaseSize():void
-		{
-			Size += SIZE_DELTA;
-			CursorSize = Size;
+			// Try to remove old listener
+			m_valuesProvider.removeEventListener(ValueChangedEvent.VALUE_CHANGED, onBrushValuesChanged);
+			
+			// Add listener to new Values provider
+			m_valuesProvider.addEventListener(ValueChangedEvent.VALUE_CHANGED, onBrushValuesChanged);
 		}
 		
 		// *** Interface Methods *** //
@@ -190,7 +167,7 @@ package brush
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
 				m_brushParts[i].Clear();
-				m_brushParts[i].Begin(x-1, y, Size, Colour, 1)
+				m_brushParts[i].Begin(x-1, y, ValuesProvider.BrushSize, Colour, ValuesProvider.BrushAlpha)
 			}
 			Draw(x, y);
 		}
@@ -264,6 +241,15 @@ package brush
 			m_cursor.visible = true;
 			m_cursor.startDrag(true);
 			Mouse.hide();
+		}
+		
+		/**
+		 * Lets the brush know when values have changed
+		 * @param	ev
+		 */
+		private function onBrushValuesChanged(ev:ValueChangedEvent)
+		{
+			CursorSize = ValuesProvider.BrushSize;
 		}
 		
 		/**

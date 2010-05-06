@@ -26,6 +26,7 @@
 package
 {
 	import brush.*;
+	import brush.values.*;
 	import colour.*;
 	import com.adobe.images.*; //for saving images
 	import flash.desktop.NativeApplication;
@@ -50,6 +51,7 @@ import flash.text.TextField;
 	{
 		private var m_activeBrush:Number;
 		private var m_brushes:Array;
+		private var m_brushValues:BrushValues;
 
 		public var toolbar:Toolbar;
 		public var paper:MovieClip;
@@ -70,7 +72,6 @@ import flash.text.TextField;
 		private const BRUSH_SPRAY:Number = 1;
 		private const BRUSH_CALIGRAPHY:Number = 2;
 		private const BRUSH_CALIGRAPHY2:Number = 3;
-		private const BRUSH_SECRET:Number = 4;
 		
 		private const WEB_SERVER_SAVE_SCRIPT = "http://www.aserver.co.uk/saveimage.aspx";
 		
@@ -97,15 +98,14 @@ import flash.text.TextField;
 			parent.addEventListener(KeyboardEvent.KEY_DOWN, onKeyCommand);
 			
 			// Setup brushes;
-			m_brushes = new Array(4);
+			m_brushes = new Array(3);
 			m_brushes[BRUSH_NORMAL] = new NormalBrush(paper, normalCursor);
 			m_brushes[BRUSH_SPRAY] = new SprayBrush(paper, normalCursor);
-			//m_brushes[BRUSH_SPRAY] = new TestBrush(paper, normalCursor);
 			m_brushes[BRUSH_CALIGRAPHY] = new CaligraphyBrush(paper, caligraphyCursor);
 			m_brushes[BRUSH_CALIGRAPHY2] = new CaligraphyBrush2(paper, caligraphyCursor2);
-			m_brushes[BRUSH_SECRET] = new SecretBrush(paper, normalCursor);
 			m_activeBrush = 0;
 			m_brushes[m_activeBrush].PickUpBrush();
+			setBrushValuesProvider(new StaticBrushValues());
 			
 			// Setup image loaders
 			backgroundImageLoader = new UserImageLoader(paper);
@@ -265,10 +265,8 @@ import flash.text.TextField;
 			// secret brush (s key)
 			else if (ev.keyCode == 83)
 			{
-				m_activeBrush = BRUSH_SECRET;
-				toolbar.ChangeBrushPanelButton(new NormalBrushButton());
+				m_brushValues.BrushAlpha = (m_brushValues.BrushAlpha == 1) ? 0.5 : 1;
 			}
-			trace(ev.keyCode);
 		}
 		
 		/**
@@ -288,10 +286,7 @@ import flash.text.TextField;
 		 */
 		private function onBiggerButton(ev:MouseEvent):void
 		{
-			for (var i:Number = 0; i < m_brushes.length; i++)
-			{
-				m_brushes[i].IncreaseSize();
-			}
+			m_brushValues.IncreaseBrushSize();
 		}
 		
 		/**
@@ -301,10 +296,7 @@ import flash.text.TextField;
 		 */
 		private function onSmallerButton(ev:MouseEvent):void
 		{
-			for (var i:Number = 0; i < m_brushes.length; i++)
-			{
-				m_brushes[i].DecreaseSize();
-			}
+			m_brushValues.DecreaseBrushSize();
 		}
 		
 		/**
@@ -437,6 +429,16 @@ import flash.text.TextField;
 			//sendLoader.addEventListener(IOErrorEvent.IO_ERROR, onSendError);
             //sendLoader.addEventListener(Event.COMPLETE, onSendSent);
 			sendLoader.load(sendToScript);
+		}
+		
+		private function setBrushValuesProvider(brushValues:BrushValues)
+		{
+			m_brushValues = brushValues;
+			
+			for (var i:Number = 0; i < m_brushes.length; i++)
+			{
+				m_brushes[i].ValuesProvider = m_brushValues;
+			}
 		}
 	}
 }
