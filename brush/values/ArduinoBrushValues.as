@@ -97,7 +97,7 @@ package brush.values
 		
 		public override function get BrushSize():int
 		{
-			return super.BrushSize + (m_offsetBrushSize / 10);
+			return super.BrushSize + (m_offsetBrushSize / 3);
 		}
 		
 		//} end region

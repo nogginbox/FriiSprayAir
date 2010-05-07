@@ -47,6 +47,7 @@ package
 		// Stage variables
 		public var btnChooseArduino:SimpleButton;
 		public var btnChooseNormal:SimpleButton;
+		public var btnClose:SimpleButton;
 		public var txtOutput:TextArea;
 		
 		/**
@@ -63,6 +64,10 @@ package
 			// Setup events
 			btnChooseNormal.addEventListener(MouseEvent.CLICK, onChooseNormalCan);
 			btnChooseArduino.addEventListener(MouseEvent.CLICK, onChooseArduinoCan);
+			
+			btnClose.addEventListener(MouseEvent.CLICK, function(ev:MouseEvent) {
+				ShowHide(me.parent);
+			});
 			
 			addEventListener(MouseEvent.MOUSE_OVER, function(ev:MouseEvent) { 
 				Mouse.show();
