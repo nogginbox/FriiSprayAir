@@ -25,6 +25,7 @@
 
 package brush.values
 {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
 	/**
@@ -54,7 +55,7 @@ package brush.values
 		{
 			m_brushAlpha = val;
 			
-			dispatchEvent(new ValueChangedEvent());
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		public function get BrushSize():int
@@ -69,7 +70,7 @@ package brush.values
 			// Size shouldn't be smaller than the minimum set brush size (normally 1)
 			if (m_brushSize < MIN_BRUSH_SIZE) m_brushSize = MIN_BRUSH_SIZE;
 			
-			dispatchEvent(new ValueChangedEvent());
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**

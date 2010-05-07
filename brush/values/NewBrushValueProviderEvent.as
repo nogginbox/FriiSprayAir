@@ -31,13 +31,23 @@ package brush.values
 	 * ...
 	 * @author Richard Garside
 	 */
-	public class ValueChangedEvent extends Event
+	public class NewBrushValueProviderEvent extends Event
 	{
-		public static const VALUE_CHANGED = "value-chngd";
+		public static const NEW_BRUSH_VALUE_PROVIDER:String = "nw-brsh-val-provider";
 		
-		public function ValueChangedEvent() 
+		private var m_valueProvider:BrushValues;
+		
+		public function NewBrushValueProviderEvent(provider:BrushValues):void
 		{
-			super(VALUE_CHANGED);
+			m_valueProvider = provider;
+			
+			super(NEW_BRUSH_VALUE_PROVIDER);
+		}
+		
+		public function get BrushValueProvider():BrushValues
+		{
+			return m_valueProvider;
 		}
 	}
+
 }

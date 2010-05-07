@@ -25,6 +25,8 @@
 
 package  
 {
+	import fl.controls.TextArea;
+	import brush.values.*;
 	import flash.display.*;
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
@@ -40,10 +42,12 @@ package
 		private static var me:ArduinoCanSetupScreen;
 		
 		private var m_buttonGlow:GlowFilter;
+		private var m_currentArduinoBrushValuesProvider:ArduinoBrushValues;
 		
 		// Stage variables
-		public var btnChooseSuper:SimpleButton;
+		public var btnChooseArduino:SimpleButton;
 		public var btnChooseNormal:SimpleButton;
+		public var txtOutput:TextArea;
 		
 		/**
 		 * Shouldn't be declared directly. Use SerialSetupScreen.Show()
@@ -58,7 +62,7 @@ package
 			
 			// Setup events
 			btnChooseNormal.addEventListener(MouseEvent.CLICK, onChooseNormalCan);
-			btnChooseSuper.addEventListener(MouseEvent.CLICK, onChooseSuperCan);
+			btnChooseArduino.addEventListener(MouseEvent.CLICK, onChooseArduinoCan);
 			
 			addEventListener(MouseEvent.MOUSE_OVER, function(ev:MouseEvent) { 
 				Mouse.show();
@@ -72,16 +76,36 @@ package
 		
 		private function onChooseNormalCan(ev:MouseEvent):void
 		{
-			// Set the highlight
-			btnChooseNormal.filters = [m_buttonGlow];
-			btnChooseSuper.filters = [];
+			// Ignore re-clicks
+			if (btnChooseNormal.filters.length == 0)
+			{
+				// Set the highlight
+				btnChooseNormal.filters = [m_buttonGlow];
+				btnChooseArduino.filters = [];
+				
+				// If it exists remove the arduino value provider completely
+				if (m_currentArduinoBrushValuesProvider != null)
+				{
+					m_currentArduinoBrushValuesProvider.Destroy();
+				}
+				
+				// Create value provider and pass it as message
+				dispatchEvent(new NewBrushValueProviderEvent(new StaticBrushValues()));
+			}
 		}
 		
-		private function onChooseSuperCan(ev:MouseEvent):void
+		private function onChooseArduinoCan(ev:MouseEvent):void
 		{
-			// Set the highlight
-			btnChooseSuper.filters = [m_buttonGlow];
-			btnChooseNormal.filters = [];
+			// Ignore re-clicks
+			if (btnChooseArduino.filters.length == 0)
+			{
+				// Set the highlight
+				btnChooseArduino.filters = [m_buttonGlow];
+				btnChooseNormal.filters = [];
+				
+				// Create value provider and pass it as message
+				dispatchEvent(new NewBrushValueProviderEvent(new ArduinoBrushValues(txtOutput.textField)));
+			}
 		}
 		
 		//} end region

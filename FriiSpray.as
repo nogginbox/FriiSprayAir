@@ -217,6 +217,16 @@ import flash.text.TextField;
 		}
 		
 		/**
+		 * The user has chosen a new brush value provider
+		 * @param	ev
+		 */
+		private function onNewBrushValueProvider(ev:NewBrushValueProviderEvent)
+		{
+			trace("Setting new brush value provider");
+			setBrushValuesProvider(ev.BrushValueProvider);
+		}
+		
+		/**
 		 * Event handler: The user has pressed a key.
 		 * Esc key - Quits program.
 		 * 0-9 keys - Change brush size.
@@ -272,7 +282,11 @@ import flash.text.TextField;
 			// secret brush (c key)
 			else if (ev.keyCode == 67)
 			{
-				ArduinoCanSetupScreen.ShowHide(this);
+				var arduinoScreen:ArduinoCanSetupScreen = ArduinoCanSetupScreen.ShowHide(this);
+				if (!arduinoScreen.hasEventListener(NewBrushValueProviderEvent.NEW_BRUSH_VALUE_PROVIDER))
+				{
+					arduinoScreen.addEventListener(NewBrushValueProviderEvent.NEW_BRUSH_VALUE_PROVIDER, onNewBrushValueProvider);
+				}
 			}
 			
 			/*else

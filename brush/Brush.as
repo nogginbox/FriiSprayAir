@@ -30,6 +30,7 @@ package brush
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.system.Capabilities;
 	import flash.ui.Mouse;
 	
@@ -144,10 +145,10 @@ package brush
 			m_valuesProvider = val;
 			
 			// Try to remove old listener
-			m_valuesProvider.removeEventListener(ValueChangedEvent.VALUE_CHANGED, onBrushValuesChanged);
+			m_valuesProvider.removeEventListener(Event.CHANGE, onBrushValuesChanged);
 			
 			// Add listener to new Values provider
-			m_valuesProvider.addEventListener(ValueChangedEvent.VALUE_CHANGED, onBrushValuesChanged);
+			m_valuesProvider.addEventListener(Event.CHANGE, onBrushValuesChanged);
 		}
 		
 		// *** Interface Methods *** //
@@ -247,7 +248,7 @@ package brush
 		 * Lets the brush know when values have changed
 		 * @param	ev
 		 */
-		private function onBrushValuesChanged(ev:ValueChangedEvent)
+		private function onBrushValuesChanged(ev:Event)
 		{
 			CursorSize = ValuesProvider.BrushSize;
 		}
