@@ -192,8 +192,10 @@ package brush
 			// Clear
 			m_paper.graphics.clear();
 			// Set screen background (also resizes available drawable screen)
+			
 			m_paper.graphics.beginFill(0xffffff);
 			m_paper.graphics.drawRect(0,0, Capabilities.screenResolutionX, Capabilities.screenResolutionY);
+			
 			
 			if(m_paperBitmap != null) {
 				m_paper.removeChild(m_paperBitmap);
@@ -289,14 +291,13 @@ package brush
 			if (m_paperBitmap == null)
 			{
 				// Copy all lines to bitmap
-				var paperBitmapData:BitmapData = new BitmapData(m_paper.width, m_paper.height);
+				var paperBitmapData:BitmapData = new BitmapData(m_paper.width, m_paper.height, true, 0x00ffffff);
 				
 				// Add new bitmap to screen
 				m_paperBitmap = new Bitmap(paperBitmapData);
 				m_paperBitmap.name = 'PaperBitmap';
 				
-				trace(m_paper.numChildren);
-				m_paper.addChildAt(m_paperBitmap, 1);//PaintDepth); //1
+				m_paper.addChildAt(m_paperBitmap, 1);
 			}
 			
 			m_paperBitmap.bitmapData.draw(m_paperBrushMarks, null, null, null, copyArea);

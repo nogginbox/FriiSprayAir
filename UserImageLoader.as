@@ -41,7 +41,7 @@ package
 		private var m_activeBrush:Brush;
 		private var m_canvas:MovieClip;
 		private var m_imageLoader:Loader;
-		private var m_paintDepth:int = 0;
+		private var m_paintDepth:int = 1;
 	
 		/**
 		 * Constructor
@@ -93,7 +93,10 @@ package
 			trace("Image: (" + m_imageLoader.width + "," + m_imageLoader.height + ")");
 			
 			// Add bitmap to the screen (Adding sooner may cause paper to have wrong dimensions)
-			m_canvas.addChildAt(m_imageLoader, m_canvas.numChildren - m_paintDepth);
+			
+			trace("Adding at " + (m_paintDepth));
+			
+			m_canvas.addChildAt(m_imageLoader, m_paintDepth);
 			
 			trace(m_canvas.name);
 		}

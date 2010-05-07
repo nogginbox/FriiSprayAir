@@ -266,8 +266,8 @@ import flash.text.TextField;
 					// Mask image open (Ctrl + m/M)
 					case 77:
 					case 109:
-						foregroundImageLoader.UserChooseFile(m_brushes[m_activeBrush]);
-						paintBelowMask();
+						foregroundImageLoader.UserChooseFile(m_brushes[m_activeBrush], paper.numChildren - 1);
+						//paintBelowMask();
 						break;
 				}
 			}
