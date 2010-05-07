@@ -31,6 +31,7 @@ package brush
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
 	import flash.ui.Mouse;
 	
@@ -46,6 +47,7 @@ package brush
 		private var m_cursor:MovieClip;
 		private var m_paintDepth:uint = 0;
 		protected var m_paper:MovieClip;
+		protected var m_paperBrushMarks:MovieClip;
 		private var m_paperBitmap:Bitmap;
 		
 		// Constants
@@ -58,6 +60,9 @@ package brush
 		{
 			Colour = new SimpleColour(0,0,0);
 			m_paper = paper;
+			m_paperBrushMarks = new MovieClip();
+			m_paperBrushMarks.name = "m_paperBrushMarks";
+			m_paper.addChild(m_paperBrushMarks);
 			
 			m_cursor = brushCursor;
 			m_cursor.mouseEnabled = false;
@@ -99,7 +104,7 @@ package brush
 		 */
 		public function get Paper():MovieClip
 		{
-			return m_paper;
+			return m_paperBrushMarks;
 		}
 		
 		/**
@@ -153,6 +158,9 @@ package brush
 		
 		// *** Interface Methods *** //
 		
+		private var m_lastX:int;
+		private var m_lastY:int;
+		
 		/**
 		 * Sets up this brush to start drawing
 		 *
@@ -161,15 +169,18 @@ package brush
 		 */
 		public function Begin(x:Number, y:Number):void
 		{
-			//trace('Beginning new line at (' + x + ', ' + y + ')');
-			copyPaperToOnscreenBitmap();
+			/*copyPaperToOnscreenBitmap();
 			
 			// Begin all brush parts and draw a very small line to start things off
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
 				m_brushParts[i].Clear();
 				m_brushParts[i].Begin(x-1, y, ValuesProvider.BrushSize, Colour, ValuesProvider.BrushAlpha)
-			}
+			}*/
+			
+			m_lastX = x - 1;
+			m_lastY = y;
+			
 			Draw(x, y);
 		}
 		
@@ -186,15 +197,16 @@ package brush
 			
 			if(m_paperBitmap != null) {
 				m_paper.removeChild(m_paperBitmap);
+				m_paperBitmap.bitmapData.dispose();
 				m_paperBitmap = null;
 			}
-			ClearBrushParts();
+			clearBrushParts();
 		}
 		
 		/**
 		 * Clear the marks made by all the brush parts.
 		 */
-		private function ClearBrushParts():void
+		private function clearBrushParts():void
 		{
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
@@ -210,10 +222,25 @@ package brush
 		 */
 		public function Draw(x:Number, y:Number):void
 		{
+			var brushSize = ValuesProvider.BrushSize;
+			var brushAlpha = ValuesProvider.BrushAlpha
+			
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
+				m_brushParts[i].Begin(m_lastX, m_lastY, brushSize, Colour, brushAlpha);
 				m_brushParts[i].Draw(x,y);
 			}
+			
+			var topX:Number = Math.min(m_lastX, x) - brushSize;
+			var bWidth:Number = Math.abs(m_lastX - x) + (brushSize * 2);
+			var topY:Number = Math.min(m_lastY, y) - brushSize;
+			var bHeight:Number = Math.abs(m_lastY - y) + (brushSize * 2);
+			
+			m_lastX = x;
+			m_lastY = y;
+			
+			copyPaperToOnscreenBitmap(new Rectangle(topX, topY, bWidth, bHeight));
+			clearBrushParts();
 		}
 		
 		/**
@@ -223,9 +250,9 @@ package brush
 		 */
 		public function DropBrush():Bitmap
 		{
-			copyPaperToOnscreenBitmap();
+			//copyPaperToOnscreenBitmap();
 			// Clear all brush parts
-			ClearBrushParts();
+			clearBrushParts();
 			
 			m_cursor.stopDrag();
 			m_cursor.visible = false;
@@ -256,21 +283,28 @@ package brush
 		/**
 		 * Copy the recent lines and previous bitmap to a new bitmap that will replace them.
 		 */
-		protected function copyPaperToOnscreenBitmap():void
+		protected function copyPaperToOnscreenBitmap(copyArea:Rectangle):void
 		{
-			// Copy all lines to bitmap
-			var paperBitmapData:BitmapData = new BitmapData(m_paper.width, m_paper.height);
-			paperBitmapData.draw(m_paper);
-			
-			// Remove old bitmap from screen (if it exists)
-			if(m_paperBitmap != null) {
-				m_paper.removeChild(m_paperBitmap);
+			// Create bitmap (if it doesn't exists)
+			if (m_paperBitmap == null)
+			{
+				// Copy all lines to bitmap
+				var paperBitmapData:BitmapData = new BitmapData(m_paper.width, m_paper.height);
+				
+				// Add new bitmap to screen
+				m_paperBitmap = new Bitmap(paperBitmapData);
+				m_paperBitmap.name = 'PaperBitmap';
+				
+				trace(m_paper.numChildren);
+				m_paper.addChildAt(m_paperBitmap, 1);//PaintDepth); //1
 			}
 			
-			// Add new bitmap to screen
-			m_paperBitmap = new Bitmap(paperBitmapData);
-			m_paperBitmap.name = 'PaperBitmap';
-			m_paper.addChildAt(m_paperBitmap, m_paper.numChildren - PaintDepth); //1
+			m_paperBitmap.bitmapData.draw(m_paperBrushMarks, null, null, null, copyArea);
+			
+			for (var i = 0; i < m_paper.numChildren; i++)
+			{
+				trace(i + ": " + m_paper.getChildAt(i).name);
+			}
 		}
 	}
 }
