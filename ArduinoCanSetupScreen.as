@@ -109,7 +109,16 @@ package
 				btnChooseNormal.filters = [];
 				
 				// Create value provider and pass it as message
-				dispatchEvent(new NewBrushValueProviderEvent(new ArduinoBrushValues(txtOutput.textField)));
+				m_currentArduinoBrushValuesProvider = new ArduinoBrushValues(txtOutput.textField)
+				dispatchEvent(new NewBrushValueProviderEvent(m_currentArduinoBrushValuesProvider));
+			}
+		}
+		
+		private function onStartCalibrate(ev:MouseEvent):void
+		{
+			if (btnChooseArduino.filters.length > 0)
+			{
+				
 			}
 		}
 		

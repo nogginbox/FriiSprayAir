@@ -45,6 +45,12 @@ package brush.values
 		private var m_offsetBrushAlpha:Number;
 		private var m_offsetBrushSize:int;
 		
+		private var m_alphaMin:int;
+		private var m_alphaMax:int;
+		private var m_sizeMin:int;
+		private var m_sizeMax:int;
+		private var m_inCalibrationMode:Boolean;
+		
 		public function ArduinoBrushValues(feedBackText:TextField) 
 		{
 			m_feedbackText = feedBackText;
@@ -57,10 +63,20 @@ package brush.values
 			m_socket.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
 			m_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
 			m_socket.addEventListener(ProgressEvent.SOCKET_DATA, onSocketData);
+			
+			// Before setting these will be as extremely wrong as possible
+			// big size number = small
+			m_alphaMin = 255;
+			m_alphaMax = 0;
+			m_sizeMin = 255;
+			m_sizeMax = 0;
+			m_inCalibrationMode = false;
 		}
 		
 		public function Destroy()
 		{
+			m_socket.close();
+			
 			m_socket.removeEventListener(Event.CLOSE, onClose);
 			m_socket.removeEventListener(Event.CONNECT, onConnect);
 			m_socket.removeEventListener(IOErrorEvent.IO_ERROR, onIoError);
@@ -98,6 +114,16 @@ package brush.values
 		public override function get BrushSize():int
 		{
 			return super.BrushSize + (m_offsetBrushSize / 3);
+		}
+		
+		public function get ColaborationMode():Boolean
+		{
+			return m_inCalibrationMode;
+		}
+		
+		public function set ColaborationMode(val:Boolean):void
+		{
+			m_inCalibrationMode = val;
 		}
 		
 		//} end region
@@ -168,7 +194,7 @@ package brush.values
 			m_offsetBrushAlpha =  int("0x" + inputBits[1]);
 			m_offsetBrushSize = int("0x" + inputBits[2]);
 			
-			//m_feedbackText.appendText("Input - alpha: " + m_offsetBrushAlpha + ", size: " + m_offsetBrushSize + "\n");
+			m_feedbackText.appendText("Input - alpha: " + m_offsetBrushAlpha + ", size: " + m_offsetBrushSize + "\n");
 		}
 	}
 
