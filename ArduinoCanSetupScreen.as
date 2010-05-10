@@ -28,9 +28,11 @@ package
 	import fl.controls.TextArea;
 	import brush.values.*;
 	import flash.display.*;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
 	import flash.system.Capabilities;
+	import flash.text.TextField;
 	import flash.ui.Mouse;
 	
 	/**
@@ -49,6 +51,13 @@ package
 		public var btnChooseNormal:SimpleButton;
 		public var btnClose:SimpleButton;
 		public var txtOutput:TextArea;
+		public var txtAlpha:TextField;
+		public var txtAlphaMax:TextField;
+		public var txtAlphaMin:TextField;
+		public var txtSize:TextField;
+		public var txtSizeMax:TextField;
+		public var txtSizeMin:TextField;
+		
 		
 		/**
 		 * Shouldn't be declared directly. Use SerialSetupScreen.Show()
@@ -65,6 +74,11 @@ package
 			btnChooseNormal.addEventListener(MouseEvent.CLICK, onChooseNormalCan);
 			btnChooseArduino.addEventListener(MouseEvent.CLICK, onChooseArduinoCan);
 			
+			txtAlphaMax.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
+			txtAlphaMin.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
+			txtSizeMax.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
+			txtSizeMin.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
+			
 			btnClose.addEventListener(MouseEvent.CLICK, function(ev:MouseEvent) {
 				ShowHide(me.parent);
 			});
@@ -78,6 +92,15 @@ package
 		}
 		
 		//{ region Event handlers
+		
+		private function onChangeMinMaxSetting(ev:Event):void
+		{
+			trace("Trying to change");
+			m_currentArduinoBrushValuesProvider.BrushAlphaMin = int(txtAlphaMin.text);
+			m_currentArduinoBrushValuesProvider.BrushAlphaMax = int(txtAlphaMax.text);
+			m_currentArduinoBrushValuesProvider.BrushSizeMin = int(txtSizeMin.text);
+			m_currentArduinoBrushValuesProvider.BrushSizeMax = int(txtSizeMax.text);
+		}
 		
 		private function onChooseNormalCan(ev:MouseEvent):void
 		{
@@ -109,16 +132,14 @@ package
 				btnChooseNormal.filters = [];
 				
 				// Create value provider and pass it as message
-				m_currentArduinoBrushValuesProvider = new ArduinoBrushValues(txtOutput.textField)
+				m_currentArduinoBrushValuesProvider = new ArduinoBrushValues(txtOutput.textField, txtSize, txtAlpha);
 				dispatchEvent(new NewBrushValueProviderEvent(m_currentArduinoBrushValuesProvider));
-			}
-		}
-		
-		private function onStartCalibrate(ev:MouseEvent):void
-		{
-			if (btnChooseArduino.filters.length > 0)
-			{
 				
+				// Set settings numbers
+				txtAlphaMin.text = m_currentArduinoBrushValuesProvider.BrushAlphaMin.toString();
+				txtAlphaMax.text = m_currentArduinoBrushValuesProvider.BrushAlphaMax.toString();
+				txtSizeMin.text = m_currentArduinoBrushValuesProvider.BrushSizeMin.toString();
+				txtSizeMax.text = m_currentArduinoBrushValuesProvider.BrushSizeMax.toString();
 			}
 		}
 		

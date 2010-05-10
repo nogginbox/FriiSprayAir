@@ -222,8 +222,11 @@ import flash.text.TextField;
 		 */
 		private function onNewBrushValueProvider(ev:NewBrushValueProviderEvent)
 		{
-			trace("Setting new brush value provider");
+			var oldCursorSize = m_brushValues.CursorBrushSize;
+			
 			setBrushValuesProvider(ev.BrushValueProvider);
+			
+			m_brushValues.BrushSize = oldCursorSize;
 		}
 		
 		/**
@@ -238,12 +241,8 @@ import flash.text.TextField;
 			// Number keys change brush size
 			if(ev.keyCode >= 48 && ev.keyCode <= 58)
 			{
-				var brushSize:Number = ((ev.keyCode - 48) * 5) + 1;
-				
-				for (var i:Number = 0; i < m_brushes.length; i++)
-				{
-					m_brushes[i].Size = brushSize;
-				}
+				var brushSize:Number = ((ev.keyCode - 48) * 8) + 1;
+				m_brushValues.BrushSize = brushSize;
 			}
 			
 			// Exit (ESC key)

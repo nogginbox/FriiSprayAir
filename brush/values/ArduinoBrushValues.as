@@ -38,6 +38,8 @@ package brush.values
 	public class ArduinoBrushValues extends BrushValues
 	{
 		private var m_feedbackText:TextField;
+		private var m_feedbackAlphaText:TextField;
+		private var m_feedbackSizeText:TextField;
 		private var m_lastSerialSignalReceived:Date;
 		private var m_socket:Socket;
 		
@@ -47,13 +49,16 @@ package brush.values
 		
 		private var m_alphaMin:int;
 		private var m_alphaMax:int;
+		private var m_alphaRange:int;
 		private var m_sizeMin:int;
 		private var m_sizeMax:int;
-		private var m_inCalibrationMode:Boolean;
+		private var m_sizeRange:int;
 		
-		public function ArduinoBrushValues(feedBackText:TextField) 
+		public function ArduinoBrushValues(feedBackText:TextField, sizeTextField:TextField, alphaTextField:TextField) 
 		{
 			m_feedbackText = feedBackText;
+			m_feedbackAlphaText = alphaTextField;
+			m_feedbackSizeText = sizeTextField;
 			m_feedbackText.text = "";
 			
 			m_socket = new Socket("localhost", 5335);
@@ -64,13 +69,12 @@ package brush.values
 			m_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
 			m_socket.addEventListener(ProgressEvent.SOCKET_DATA, onSocketData);
 			
-			// Before setting these will be as extremely wrong as possible
+			// Standard settings
 			// big size number = small
-			m_alphaMin = 255;
-			m_alphaMax = 0;
-			m_sizeMin = 255;
-			m_sizeMax = 0;
-			m_inCalibrationMode = false;
+			BrushAlphaMin = 0;
+			BrushAlphaMax = 255;
+			BrushSizeMin = 0;
+			BrushSizeMax = 255;
 		}
 		
 		public function Destroy()
@@ -111,19 +115,67 @@ package brush.values
 			return super.BrushAlpha + (m_offsetBrushAlpha / 255);
 		}
 		
+		private function brushAlphaCalculateRange()
+		{
+			m_alphaRange = m_alphaMax - m_alphaMin;
+		}
+		
+		public function get BrushAlphaMax():Number
+		{
+			return m_alphaMax;
+		}
+		
+		public function set BrushAlphaMax(val:Number):void
+		{
+			m_alphaMax = val;
+			brushAlphaCalculateRange();
+		}
+		
+		public function get BrushAlphaMin():Number
+		{
+			return m_alphaMin;
+		}
+		
+		public function set BrushAlphaMin(val:Number):void
+		{
+			m_alphaMin = val;
+			brushAlphaCalculateRange();
+		}
+		
+		
 		public override function get BrushSize():int
-		{
-			return super.BrushSize + (m_offsetBrushSize / 3);
+		{	
+			var val = (1 - calcRanged(m_offsetBrushSize, m_sizeMin, m_sizeRange));
+			trace(val);
+			
+			return super.BrushSize + (val * 100);
 		}
 		
-		public function get ColaborationMode():Boolean
+		private function brushSizeCalculateRange()
 		{
-			return m_inCalibrationMode;
+			m_sizeRange = m_sizeMax - m_sizeMin;
 		}
 		
-		public function set ColaborationMode(val:Boolean):void
+		public function get BrushSizeMax():int
 		{
-			m_inCalibrationMode = val;
+			return m_sizeMax;
+		}
+		
+		public function set BrushSizeMax(val:int):void
+		{
+			m_sizeMax = val;
+			brushSizeCalculateRange();
+		}
+		
+		public function get BrushSizeMin():int
+		{
+			return m_sizeMin;
+		}
+		
+		public function set BrushSizeMin(val:int):void
+		{
+			m_sizeMin = val;
+			brushSizeCalculateRange();
 		}
 		
 		//} end region
@@ -183,6 +235,11 @@ package brush.values
 		
 		//} end region
 		
+		private function calcRanged(val:Number, min:Number, range:Number):Number
+		{
+			return Math.min(Math.max((val - min) / range, 0), 1);
+		}
+		
 		/**
 		 * Takes a complete line of input and then sets the brushes values from this
 		 * @param	input
@@ -194,7 +251,11 @@ package brush.values
 			m_offsetBrushAlpha =  int("0x" + inputBits[1]);
 			m_offsetBrushSize = int("0x" + inputBits[2]);
 			
-			m_feedbackText.appendText("Input - alpha: " + m_offsetBrushAlpha + ", size: " + m_offsetBrushSize + "\n");
+			m_feedbackAlphaText.text = m_offsetBrushAlpha.toString();
+				
+				
+			m_feedbackSizeText.text	= m_offsetBrushSize.toString();
+			//trace("Input - alpha: " + m_offsetBrushAlpha + ", size: " + m_offsetBrushSize + "\n");
 		}
 	}
 

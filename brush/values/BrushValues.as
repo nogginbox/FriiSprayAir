@@ -65,6 +65,11 @@ package brush.values
 		
 		public function set BrushSize(val:int):void
 		{
+			setBrushSize(val);
+		}
+		
+		private function setBrushSize(val:int):void
+		{
 			m_brushSize = val;
 			
 			// Size shouldn't be smaller than the minimum set brush size (normally 1)
@@ -74,11 +79,19 @@ package brush.values
 		}
 		
 		/**
+		 * The base brush size which remains constant even through possible arduino changes
+		 */
+		public function get CursorBrushSize():int
+		{
+			return m_brushSize;
+		}
+		
+		/**
 		 * Decrease the size of this brush by SIZE_DELTA.
 		 */
 		public function DecreaseBrushSize():void
 		{
-			this.BrushSize -= SIZE_DELTA;
+			setBrushSize(m_brushSize - SIZE_DELTA);
 		}
 		
 		/**
@@ -86,7 +99,7 @@ package brush.values
 		 */
 		public function IncreaseBrushSize():void
 		{
-			this.BrushSize += SIZE_DELTA;
+			setBrushSize(m_brushSize + SIZE_DELTA);
 		}
 	}
 

@@ -279,7 +279,7 @@ package brush
 		 */
 		private function onBrushValuesChanged(ev:Event)
 		{
-			CursorSize = ValuesProvider.BrushSize;
+			CursorSize = ValuesProvider.CursorBrushSize;
 		}
 		
 		/**
@@ -301,11 +301,6 @@ package brush
 			}
 			
 			m_paperBitmap.bitmapData.draw(m_paperBrushMarks, null, null, null, copyArea);
-			
-			for (var i = 0; i < m_paper.numChildren; i++)
-			{
-				trace(i + ": " + m_paper.getChildAt(i).name);
-			}
 		}
 	}
 }
