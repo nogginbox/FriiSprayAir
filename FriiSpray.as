@@ -52,6 +52,7 @@ import flash.text.TextField;
 		private var m_activeBrush:Number;
 		private var m_brushes:Array;
 		private var m_brushValues:BrushValues;
+		private var m_sprayTimer:Timer;
 
 		public var toolbar:Toolbar;
 		public var paper:MovieClip;
@@ -83,6 +84,7 @@ import flash.text.TextField;
 			// Connect events
 			paper.addEventListener(MouseEvent.MOUSE_DOWN, onStartSpray);
 			paper.addEventListener(MouseEvent.MOUSE_UP, onStopSpray);
+			paper.addEventListener(MouseEvent.MOUSE_OUT, onStopSpray);
 			paper.addEventListener(MouseEvent.MOUSE_OVER, onOverPaper);
 
 			toolbar.BtnBrushNormal.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
@@ -130,6 +132,9 @@ import flash.text.TextField;
 			
 			// Full screen the interface
 			stage.displayState = StageDisplayState.FULL_SCREEN;
+			
+			m_sprayTimer = new Timer(10, 0);
+			m_sprayTimer.addEventListener(TimerEvent.TIMER, onMouseBrushMove);
 		}
 
 		
@@ -198,18 +203,18 @@ import flash.text.TextField;
 		 *
 		 * @param ev Event object containing event details.
 		 */
-		private function onMouseBrushMove(ev:MouseEvent):void
+		private function onMouseBrushMove(ev:TimerEvent):void
 		{
 			// Check the user still wants to draw
-			if(ev.buttonDown)
-			{
+			//if(ev.buttonDown)
+			//{
 				m_brushes[m_activeBrush].Draw(paper.mouseX, paper.mouseY);
-			}
-			else
-			{
+			//}
+			//else
+			//{
 				// Drawing should have stopped (User may have unclicked while off screen)
-				onStopSpray(ev);
-			}
+				//onStopSpray(ev);
+			//}
 			
 			// Updates the screen if there has been a change
 			// Allows low frame rate and smooth screen drawing
@@ -359,7 +364,8 @@ import flash.text.TextField;
 		{
 			Mouse.hide();
 			m_brushes[m_activeBrush].Begin(paper.mouseX, paper.mouseY);
-			addEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
+			//addEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
+			m_sprayTimer.start();
 		}
 		
 		/**
@@ -369,7 +375,8 @@ import flash.text.TextField;
 		 */
 		private function onStopSpray(ev:MouseEvent):void
 		{
-			removeEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
+			//removeEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
+			m_sprayTimer.stop();
 		}
 		
 		// ** Useful functions **
