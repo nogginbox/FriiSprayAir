@@ -30,6 +30,7 @@ package brush.values
 	
 	/**
 	 * A base class that lets us change where we get the width and alpha values for our brushes.
+	 * The main purpose of this is to allow brush values to either come from the interface or from a smarter can.
 	 * @author Richard Garside
 	 */
 	public class BrushValues extends EventDispatcher

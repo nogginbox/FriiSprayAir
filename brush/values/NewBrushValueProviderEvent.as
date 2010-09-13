@@ -28,7 +28,7 @@ package brush.values
 	import flash.events.Event;
 	
 	/**
-	 * ...
+	 * An event indicating that the Brush Value Provider has changed.
 	 * @author Richard Garside
 	 */
 	public class NewBrushValueProviderEvent extends Event

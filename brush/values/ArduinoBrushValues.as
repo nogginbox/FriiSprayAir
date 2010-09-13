@@ -32,7 +32,8 @@ package brush.values
 	import flash.text.TextField;
 	
 	/**
-	 * Brush values where base values are set by graphical UI and adjusted by arduino
+	 * Brush values where base values are set by graphical UI and adjusted by arduino.
+	 * (this feature is in development - feature3)
 	 * @author Richard Garside
 	 */
 	public class ArduinoBrushValues extends BrushValues

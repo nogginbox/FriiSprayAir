@@ -74,6 +74,7 @@ import flash.text.TextField;
 		private const BRUSH_CALIGRAPHY:Number = 2;
 		private const BRUSH_CALIGRAPHY2:Number = 3;
 		
+		//(this feature is in development - feature1)
 		private const WEB_SERVER_SAVE_SCRIPT = "http://www.aserver.co.uk/saveimage.aspx";
 		
 		/**
@@ -133,7 +134,7 @@ import flash.text.TextField;
 			// Full screen the interface
 			stage.displayState = StageDisplayState.FULL_SCREEN;
 			
-			m_sprayTimer = new Timer(10, 0);
+			m_sprayTimer = new Timer(20, 0); // Frame rate = 50 fps
 			m_sprayTimer.addEventListener(TimerEvent.TIMER, onMouseBrushMove);
 		}
 
@@ -276,14 +277,14 @@ import flash.text.TextField;
 				}
 			}
 			
-			// secret brush (s key)
+			// secret brush (s key) (this feature is in development - feature2)
 			else if (ev.keyCode == 83)
 			{
 				// Toggles alpha between 1 and 0.5
 				m_brushValues.BrushAlpha = (m_brushValues.BrushAlpha == 1) ? 0.5 : 1;
 			}
 			
-			// secret brush (c key)
+			// secret brush (c key) (this feature is in development - feature3)
 			else if (ev.keyCode == 67)
 			{
 				var arduinoScreen:ArduinoCanSetupScreen = ArduinoCanSetupScreen.ShowHide(this);
@@ -364,7 +365,6 @@ import flash.text.TextField;
 		{
 			Mouse.hide();
 			m_brushes[m_activeBrush].Begin(paper.mouseX, paper.mouseY);
-			//addEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
 			m_sprayTimer.start();
 		}
 		
@@ -375,7 +375,6 @@ import flash.text.TextField;
 		 */
 		private function onStopSpray(ev:MouseEvent):void
 		{
-			//removeEventListener(MouseEvent.MOUSE_MOVE, onMouseBrushMove);
 			m_sprayTimer.stop();
 		}
 		
@@ -438,13 +437,13 @@ import flash.text.TextField;
 			// close the file.
 			stream.close();
 			
-			//Uncomment to send to a web
-			//need to set this constant WEB_SERVER_SAVE_SCRIPT
-			//sendToWeb(byteArray, fileName + fileNumber);
+			// Uncomment to send to a website (this feature is in development - feature1)
+			// need to set this constant WEB_SERVER_SAVE_SCRIPT
+			// sendToWeb(byteArray, fileName + fileNumber);
 		}
 		
 		/**
-		 * Sends image to a web server to save it and perhaps put it on a website
+		 * Sends image to a web server to save it (feature in development - feature1)
 		 */
 		private function sendToWeb(byteArray, imageTitle:String)
 		{
