@@ -1,4 +1,6 @@
-FriiSpray was made using Adobe Flash CS4. I've included a version saved as CS3, but I've not tested it, so it may not work.
+FriiSpray was made using Adobe Flash CS4.
+It relies on the as3corelib library, which can be downloaded here:
+http://github.com/mikechambers/as3corelib
 
 Documentation can be found at:
 http://www.richardsprojects.co.uk/products/FriiSpray/documentation/
