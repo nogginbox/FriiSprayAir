@@ -83,10 +83,12 @@ import flash.text.TextField;
 		public function FriiSpray()
 		{
 			// Connect events
+			
 			paper.addEventListener(MouseEvent.MOUSE_DOWN, onStartSpray);
 			paper.addEventListener(MouseEvent.MOUSE_UP, onStopSpray);
 			paper.addEventListener(MouseEvent.MOUSE_OUT, onStopSpray);
 			paper.addEventListener(MouseEvent.MOUSE_OVER, onOverPaper);
+			paper.mouseChildren = false; // Stops children of paper firing events
 
 			toolbar.BtnBrushNormal.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
 			toolbar.BtnBrushSpray.addEventListener(MouseEvent.MOUSE_DOWN, onBrushPick);
@@ -134,7 +136,7 @@ import flash.text.TextField;
 			// Full screen the interface
 			stage.displayState = StageDisplayState.FULL_SCREEN;
 			
-			m_sprayTimer = new Timer(20, 0); // Frame rate = 50 fps
+			m_sprayTimer = new Timer(10, 0); // Frame rate = 50 fps
 			m_sprayTimer.addEventListener(TimerEvent.TIMER, onMouseBrushMove);
 		}
 
@@ -206,20 +208,10 @@ import flash.text.TextField;
 		 */
 		private function onMouseBrushMove(ev:TimerEvent):void
 		{
-			// Check the user still wants to draw
-			//if(ev.buttonDown)
-			//{
-				m_brushes[m_activeBrush].Draw(paper.mouseX, paper.mouseY);
-			//}
-			//else
-			//{
-				// Drawing should have stopped (User may have unclicked while off screen)
-				//onStopSpray(ev);
-			//}
+			m_brushes[m_activeBrush].Draw(paper.mouseX, paper.mouseY);
 			
 			// Updates the screen if there has been a change
-			// Allows low frame rate and smooth screen drawing
-			ev.updateAfterEvent();
+			//ev.updateAfterEvent();
 		}
 		
 		/**
@@ -363,9 +355,11 @@ import flash.text.TextField;
 		 */
 		private function onStartSpray(ev:MouseEvent):void
 		{
+			trace("Starting onStartspray");
 			Mouse.hide();
 			m_brushes[m_activeBrush].Begin(paper.mouseX, paper.mouseY);
 			m_sprayTimer.start();
+			trace("Ending onStartspray");
 		}
 		
 		/**
@@ -375,6 +369,7 @@ import flash.text.TextField;
 		 */
 		private function onStopSpray(ev:MouseEvent):void
 		{
+			trace("Spray stopped");
 			m_sprayTimer.stop();
 		}
 		

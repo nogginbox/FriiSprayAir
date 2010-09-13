@@ -51,6 +51,7 @@ package brush
 		private var m_paperBitmap:Bitmap;
 		
 		// Constants
+		private const EASING_AMOUNT:Number = 0.5;
 		private const MIN_CURSOR_SIZE:Number = 3;
 		
 		/**
@@ -168,18 +169,18 @@ package brush
 		 * @param y The y coordinate to start drawing from.
 		 */
 		public function Begin(x:Number, y:Number):void
-		{
-			/*copyPaperToOnscreenBitmap();
+		{			
+			copyPaperToOnscreenBitmap();
+			
+			m_lastX = x - 1;
+			m_lastY = y;
 			
 			// Begin all brush parts and draw a very small line to start things off
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
 				m_brushParts[i].Clear();
-				m_brushParts[i].Begin(x-1, y, ValuesProvider.BrushSize, Colour, ValuesProvider.BrushAlpha)
-			}*/
-			
-			m_lastX = x - 1;
-			m_lastY = y;
+				m_brushParts[i].Begin(m_lastX, y, ValuesProvider.BrushSize, Colour, ValuesProvider.BrushAlpha)
+			}
 			
 			Draw(x, y);
 		}
@@ -225,24 +226,29 @@ package brush
 		public function Draw(x:Number, y:Number):void
 		{
 			var brushSize = ValuesProvider.BrushSize;
-			var brushAlpha = ValuesProvider.BrushAlpha
+			var brushAlpha = ValuesProvider.BrushAlpha;
+			
+			var drawX = m_lastX + ((x - m_lastX) * EASING_AMOUNT);
+			var drawY = m_lastY + ((y - m_lastY) * EASING_AMOUNT);
 			
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
-				m_brushParts[i].Begin(m_lastX, m_lastY, brushSize, Colour, brushAlpha);
-				m_brushParts[i].Draw(x,y);
+				// Draw needs to bitmap all lines if transparency is to work, Brush.Begin doesn't need this line then (this feature is in development - feature2)
+				// m_brushParts[i].Begin(m_lastX, m_lastY, brushSize, Colour, brushAlpha);
+				m_brushParts[i].Draw(drawX, drawY);
 			}
 			
-			var topX:Number = Math.min(m_lastX, x) - brushSize;
-			var bWidth:Number = Math.abs(m_lastX - x) + (brushSize * 2);
-			var topY:Number = Math.min(m_lastY, y) - brushSize;
-			var bHeight:Number = Math.abs(m_lastY - y) + (brushSize * 2);
+			/*var topX:Number = Math.min(m_lastX, drawX) - brushSize;
+			var bWidth:Number = Math.abs(m_lastX - drawX) + (brushSize * 2);
+			var topY:Number = Math.min(m_lastY, drawY) - brushSize;
+			var bHeight:Number = Math.abs(m_lastY - drawY) + (brushSize * 2);*/
 			
-			m_lastX = x;
-			m_lastY = y;
+			m_lastX = drawX;
+			m_lastY = drawY;
 			
-			copyPaperToOnscreenBitmap(new Rectangle(topX, topY, bWidth, bHeight));
-			clearBrushParts();
+			//(this feature is in development - feature2)
+			//copyPaperToOnscreenBitmap(new Rectangle(topX, topY, bWidth, bHeight));
+			//clearBrushParts();
 		}
 		
 		/**
@@ -285,7 +291,7 @@ package brush
 		/**
 		 * Copy the recent lines and previous bitmap to a new bitmap that will replace them.
 		 */
-		protected function copyPaperToOnscreenBitmap(copyArea:Rectangle):void
+		protected function copyPaperToOnscreenBitmap(copyArea:Rectangle = null):void
 		{
 			// Create bitmap (if it doesn't exists)
 			if (m_paperBitmap == null)

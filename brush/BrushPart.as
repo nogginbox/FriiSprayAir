@@ -55,6 +55,7 @@ package brush
 			// Set up brush movie
 			m_brushPart = new MovieClip();
 			m_brushPart.name = 'BrushPart';
+			m_brushPart.mouseEnabled = false;
 			m_parentBrush = brush;
 		}
 		
