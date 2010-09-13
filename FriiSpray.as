@@ -75,7 +75,7 @@ import flash.text.TextField;
 		private const BRUSH_CALIGRAPHY2:Number = 3;
 		
 		//(this feature is in development - feature1)
-		private const WEB_SERVER_SAVE_SCRIPT = "http://www.aserver.co.uk/saveimage.aspx";
+		private const WEB_SERVER_SAVE_SCRIPT:String = "http://www.aserver.co.uk/saveimage.aspx";
 		
 		/**
 		 * Constructor
@@ -218,9 +218,9 @@ import flash.text.TextField;
 		 * The user has chosen a new brush value provider
 		 * @param	ev
 		 */
-		private function onNewBrushValueProvider(ev:NewBrushValueProviderEvent)
+		private function onNewBrushValueProvider(ev:NewBrushValueProviderEvent):void
 		{
-			var oldCursorSize = m_brushValues.CursorBrushSize;
+			var oldCursorSize:int = m_brushValues.CursorBrushSize;
 			
 			setBrushValuesProvider(ev.BrushValueProvider);
 			
@@ -356,11 +356,9 @@ import flash.text.TextField;
 		 */
 		private function onStartSpray(ev:MouseEvent):void
 		{
-			trace("Starting onStartspray");
 			Mouse.hide();
 			m_brushes[m_activeBrush].Begin(paper.mouseX, paper.mouseY);
 			m_sprayTimer.start();
-			trace("Ending onStartspray");
 		}
 		
 		/**
@@ -370,7 +368,6 @@ import flash.text.TextField;
 		 */
 		private function onStopSpray(ev:MouseEvent):void
 		{
-			trace("Spray stopped");
 			m_sprayTimer.stop();
 		}
 		
@@ -379,7 +376,7 @@ import flash.text.TextField;
 		/**
 		 * Sets the brush depth to allow painting beneath a mask image
 		 */
-		private function paintBelowMask()
+		private function paintBelowMask():void
 		{
 			for each (var aBrush:Brush in m_brushes)
 			{
@@ -390,7 +387,7 @@ import flash.text.TextField;
 		/**
 		 * Quits the application (Needs to be clicked twice in win 7 and vista, need to check on other OS's)
 		 */
-		private function quit()
+		private function quit():void
 		{
 			NativeApplication.nativeApplication.exit();
 		}
@@ -402,9 +399,9 @@ import flash.text.TextField;
 		private function save():void
 		{
 			// Draw paper, missing out the bit covered by menu bar
-			var paperTopCorner = paper.localToGlobal(new Point(50, 0)); // We know toolbar is 50 pixels wide in local space			
+			var paperTopCorner:Point = paper.localToGlobal(new Point(50, 0)); // We know toolbar is 50 pixels wide in local space			
 			var bitmapData:BitmapData = new BitmapData(Capabilities.screenResolutionX - paperTopCorner.x, Capabilities.screenResolutionY);
-			var translateMatrix = new Matrix();
+			var translateMatrix:Matrix = new Matrix();
 			translateMatrix.translate(-paperTopCorner.x, 0)
 			bitmapData.draw(paper, translateMatrix);
 			
@@ -449,9 +446,9 @@ import flash.text.TextField;
 		/**
 		 * Sends image to a web server to save it (feature in development - feature1)
 		 */
-		private function sendToWeb(byteArray, imageTitle:String)
+		private function sendToWeb(byteArray:ByteArray, imageTitle:String):void
 		{
-			var queryString = "?tags=FriiSpray&title=" +imageTitle;
+			var queryString:String = "?tags=FriiSpray&title=" +imageTitle;
 			
 			// Choose sending method and attach the data
 			var sendToScript:URLRequest = new URLRequest(WEB_SERVER_SAVE_SCRIPT + queryString);
@@ -459,14 +456,14 @@ import flash.text.TextField;
 			sendToScript.data = byteArray;
 			
 			// Actually send the info to the server.
-			var sendLoader = new URLLoader();
+			var sendLoader:URLLoader = new URLLoader();
 
 			//sendLoader.addEventListener(IOErrorEvent.IO_ERROR, onSendError);
             //sendLoader.addEventListener(Event.COMPLETE, onSendSent);
 			sendLoader.load(sendToScript);
 		}
 		
-		private function setBrushValuesProvider(brushValues:BrushValues)
+		private function setBrushValuesProvider(brushValues:BrushValues):void
 		{
 			m_brushValues = brushValues;
 			

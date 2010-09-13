@@ -36,7 +36,8 @@ package
 	import flash.ui.Mouse;
 	
 	/**
-	 * ...
+	 * Setup the arduino can as a value provider
+	 * (this feature is in development - feature3)
 	 * @author Richard Garside
 	 */
 	public class ArduinoCanSetupScreen extends MovieClip
@@ -79,14 +80,14 @@ package
 			txtSizeMax.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
 			txtSizeMin.addEventListener(Event.CHANGE, onChangeMinMaxSetting);
 			
-			btnClose.addEventListener(MouseEvent.CLICK, function(ev:MouseEvent) {
+			btnClose.addEventListener(MouseEvent.CLICK, function(ev:MouseEvent):void {
 				ShowHide(me.parent);
 			});
 			
-			addEventListener(MouseEvent.MOUSE_OVER, function(ev:MouseEvent) { 
+			addEventListener(MouseEvent.MOUSE_OVER, function(ev:MouseEvent):void { 
 				Mouse.show();
 			});
-			addEventListener(MouseEvent.MOUSE_OUT, function(ev:MouseEvent) { 
+			addEventListener(MouseEvent.MOUSE_OUT, function(ev:MouseEvent):void { 
 				Mouse.hide();
 			});
 		}

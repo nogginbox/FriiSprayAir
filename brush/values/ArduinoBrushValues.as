@@ -78,7 +78,7 @@ package brush.values
 			BrushSizeMax = 255;
 		}
 		
-		public function Destroy()
+		public function Destroy():void
 		{
 			m_socket.close();
 			
@@ -106,7 +106,7 @@ package brush.values
 			}
 			else
 			{
-				var now = new Date();
+				var now:Date = new Date();
 				return now.time = m_lastSerialSignalReceived.time;
 			}
 		}
@@ -116,7 +116,7 @@ package brush.values
 			return super.BrushAlpha + (m_offsetBrushAlpha / 255);
 		}
 		
-		private function brushAlphaCalculateRange()
+		private function brushAlphaCalculateRange():void
 		{
 			m_alphaRange = m_alphaMax - m_alphaMin;
 		}
@@ -146,13 +146,13 @@ package brush.values
 		
 		public override function get BrushSize():int
 		{	
-			var val = (1 - calcRanged(m_offsetBrushSize, m_sizeMin, m_sizeRange));
+			var val:Number = (1 - calcRanged(m_offsetBrushSize, m_sizeMin, m_sizeRange));
 			trace(val);
 			
 			return super.BrushSize + (val * 100);
 		}
 		
-		private function brushSizeCalculateRange()
+		private function brushSizeCalculateRange():void
 		{
 			m_sizeRange = m_sizeMax - m_sizeMin;
 		}
@@ -259,5 +259,4 @@ package brush.values
 			//trace("Input - alpha: " + m_offsetBrushAlpha + ", size: " + m_offsetBrushSize + "\n");
 		}
 	}
-
 }

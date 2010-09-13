@@ -63,7 +63,7 @@ package colour
 			nWidth += greysBarWidth;
 			
 			// Draw black to white gradient strip
-			var objMatrixW = new Matrix();
+			var objMatrixW:Matrix = new Matrix();
 			objMatrixW.createGradientBox(1, nHeight, Math.PI * 0.5, 0, 0);
 			graphics.lineStyle(20, 0, 1, false, LineScaleMode.NONE, CapsStyle.NONE);
 			graphics.lineGradientStyle(GradientType.LINEAR, [0xFFFFFF, 0x000000], [1, 1], [0, 255], objMatrixW);

@@ -225,11 +225,11 @@ package brush
 		 */
 		public function Draw(x:Number, y:Number):void
 		{
-			var brushSize = ValuesProvider.BrushSize;
-			var brushAlpha = ValuesProvider.BrushAlpha;
+			var brushSize:int = ValuesProvider.BrushSize;
+			var brushAlpha:Number = ValuesProvider.BrushAlpha;
 			
-			var drawX = m_lastX + ((x - m_lastX) * EASING_AMOUNT);
-			var drawY = m_lastY + ((y - m_lastY) * EASING_AMOUNT);
+			var drawX:int = m_lastX + ((x - m_lastX) * EASING_AMOUNT);
+			var drawY:int = m_lastY + ((y - m_lastY) * EASING_AMOUNT);
 			
 			for(var i:Number=0; i < m_brushParts.length; i++)
 			{
@@ -283,7 +283,7 @@ package brush
 		 * Lets the brush know when values have changed
 		 * @param	ev
 		 */
-		private function onBrushValuesChanged(ev:Event)
+		private function onBrushValuesChanged(ev:Event):void
 		{
 			CursorSize = ValuesProvider.CursorBrushSize;
 		}
