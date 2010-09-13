@@ -246,7 +246,8 @@ import flash.text.TextField;
 			// Exit (ESC key)
 			else if(ev.keyCode == 27)
 			{
-				NativeApplication.nativeApplication.exit();
+				ev.preventDefault();
+				quit();
 			}
 			
 			// Ctrl Commands
@@ -384,6 +385,14 @@ import flash.text.TextField;
 			{
     			aBrush.PaintDepth = 2;
 			}
+		}
+		
+		/**
+		 * Quits the application (Needs to be clicked twice in win 7 and vista, need to check on other OS's)
+		 */
+		private function quit()
+		{
+			NativeApplication.nativeApplication.exit();
 		}
 		
 		/**
